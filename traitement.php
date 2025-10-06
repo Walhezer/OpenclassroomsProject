@@ -1,4 +1,4 @@
-<? 
+<?php 
 
 if(empty($_POST['titre']) || empty($_POST['description']) || empty($_POST['artiste']) || empty($_POST['image']) 
     || strlen($_POST['description']) < 3
@@ -15,4 +15,13 @@ if(empty($_POST['titre']) || empty($_POST['description']) || empty($_POST['artis
     $artiste = htmlspecialchars($_POST['artiste]']);
     $image = htmlspecialchars($_POST['image']);
     
+
+include 'bdd.php';
+$bdd = connexion ();
+
+$requete = $bdd->prepare('INSERT INTO oeuvres (titre, description, artiste, image) VALUES (?, ?, ?, ?)');
+$requete->execute([$titre, $description, $artiste, $image]);
+
+header ('Location: oeuvre.php?id=') . $bdd->lastInsertId();
+exit;
 }
